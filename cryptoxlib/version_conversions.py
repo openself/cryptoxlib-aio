@@ -27,7 +27,7 @@ def async_run(f):
     elif IS_PYTHON37 or IS_PYTHON38 or IS_PYTHON39:
         return asyncio.run(f)
 
-    raise Exception(f'Unsupported Python version! Only versions 3.6.x, 3.7.x and 3.8.x are supported.')
+    raise Exception(f'Unsupported Python version! Only versions 3.6.x - 3.9.x are supported.')
 
 
 def async_create_task(f):
@@ -37,11 +37,11 @@ def async_create_task(f):
     elif IS_PYTHON37 or IS_PYTHON38 or IS_PYTHON39:
         return asyncio.create_task(f)
 
-    raise Exception(f'Unsupported Python version! Only versions 3.6.x, 3.7.x and 3.8.x are supported.')
+    raise Exception(f'Unsupported Python version! Only versions 3.6.x - 3.9.x are supported.')
 
 
 def get_current_time_ms():
     if IS_PYTHON36:
-        return time.time() * 1000.0
+        return time.time() * 1000
     else:
-        return time.time_ns() / 1000000.0
+        return time.time_ns() // 1000000
