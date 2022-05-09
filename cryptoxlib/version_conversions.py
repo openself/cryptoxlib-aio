@@ -43,6 +43,6 @@ def async_create_task(f):
 
 def get_current_time_ms():
     if IS_PYTHON36:
-        return time.time() * 1000.0
+        return time.time() * 1000
     else:
-        return time.time_ns() / 1000000.0
+        return time.time_ns() // 1000000
