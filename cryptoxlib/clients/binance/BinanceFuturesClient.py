@@ -430,14 +430,14 @@ class BinanceUSDSMFuturesClient(BinanceFuturesClient):
     def get_api_futures(self) -> str:
         return BinanceUSDSMFuturesClient.FUTURES_DATA
 
-    async def get_mark_price(self, pair: Pair = None) -> dict:
+    async def get_mark_price(self, symbol: PairSymbolType = None) -> dict:
         params = {}
-        if pair is not None:
-            params['symbol'] = map_pair(pair)
+        if symbol is not None:
+            params['symbol'] = extract_symbol(symbol)
 
         return await self._create_get("premiumIndex", params = params, api_variable_path = BinanceUSDSMFuturesClient.FAPI_V1)
 
-    async def get_fund_rate_history(self, pair: Pair = None, limit: int = None,
+    async def get_fund_rate_history(self, symbol: PairSymbolType = None, limit: int = None,
                                     start_tmstmp_ms: int = None, end_tmstmp_ms: int = None) -> dict:
         params = CryptoXLibClient._clean_request_params({
             "limit": limit,
@@ -445,34 +445,34 @@ class BinanceUSDSMFuturesClient(BinanceFuturesClient):
             "endTime": end_tmstmp_ms
         })
 
-        if pair is not None:
-            params['symbol'] = map_pair(pair)
+        if symbol is not None:
+            params['symbol'] = extract_symbol(symbol)
 
         return await self._create_get("fundingRate", params = params, api_variable_path = BinanceUSDSMFuturesClient.FAPI_V1)
 
-    async def get_24h_price_ticker(self, pair: Pair = None) -> dict:
+    async def get_24h_price_ticker(self, symbol: PairSymbolType = None) -> dict:
         params = {}
-        if pair is not None:
-            params['symbol'] = map_pair(pair)
+        if symbol is not None:
+            params['symbol'] = extract_symbol(symbol)
 
         return await self._create_get("ticker/24hr", params = params, api_variable_path = BinanceUSDSMFuturesClient.FAPI_V1)
 
-    async def get_price_ticker(self, pair: Pair = None) -> dict:
+    async def get_price_ticker(self, symbol: PairSymbolType = None) -> dict:
         params = {}
-        if pair is not None:
-            params['symbol'] = map_pair(pair)
+        if symbol is not None:
+            params['symbol'] = extract_symbol(symbol)
 
         return await self._create_get("ticker/price", params = params, api_variable_path = BinanceUSDSMFuturesClient.FAPI_V1)
 
-    async def get_orderbook_ticker(self, pair: Pair = None) -> dict:
+    async def get_orderbook_ticker(self, symbol: PairSymbolType = None) -> dict:
         params = {}
-        if pair is not None:
-            params['symbol'] = map_pair(pair)
+        if symbol is not None:
+            params['symbol'] = extract_symbol(symbol)
 
         return await self._create_get("ticker/bookTicker", headers = self._get_header(), params = params, api_variable_path = BinanceUSDSMFuturesClient.FAPI_V1)
 
     # Not maintained by binance, will be removed in the future
-    async def get_all_liquidation_orders(self, pair: Pair = None, limit: int = None,
+    async def get_all_liquidation_orders(self, symbol: PairSymbolType = None, limit: int = None,
                                     start_tmstmp_ms: int = None, end_tmstmp_ms: int = None) -> dict:
         params = CryptoXLibClient._clean_request_params({
             "limit": limit,
@@ -480,15 +480,15 @@ class BinanceUSDSMFuturesClient(BinanceFuturesClient):
             "endTime": end_tmstmp_ms
         })
 
-        if pair is not None:
-            params['symbol'] = map_pair(pair)
+        if symbol is not None:
+            params['symbol'] = extract_symbol(symbol)
 
         return await self._create_get("allForceOrders", params = params, api_variable_path = BinanceUSDSMFuturesClient.FAPI_V1)
 
-    async def get_open_interest_hist(self, pair: Pair, interval: enums.Interval,
+    async def get_open_interest_hist(self, symbol: PairSymbolType, interval: enums.Interval,
                                      limit: int = None, start_tmstmp_ms: int = None, end_tmstmp_ms: int = None) -> dict:
         params = CryptoXLibClient._clean_request_params({
-            "symbol": map_pair(pair),
+            "symbol": extract_symbol(symbol),
             "period": interval.value,
             "limit": limit,
             "startTime": start_tmstmp_ms,
@@ -497,10 +497,10 @@ class BinanceUSDSMFuturesClient(BinanceFuturesClient):
 
         return await self._create_get("openInterestHist", headers = self._get_header(), params = params, api_variable_path = BinanceUSDSMFuturesClient.FUTURES_DATA)
 
-    async def get_top_long_short_account_ratio(self, pair: Pair, interval: enums.Interval,
+    async def get_top_long_short_account_ratio(self, symbol: PairSymbolType, interval: enums.Interval,
                                      limit: int = None, start_tmstmp_ms: int = None, end_tmstmp_ms: int = None) -> dict:
         params = CryptoXLibClient._clean_request_params({
-            "symbol": map_pair(pair),
+            "symbol": extract_symbol(symbol),
             "period": interval.value,
             "limit": limit,
             "startTime": start_tmstmp_ms,
@@ -509,10 +509,10 @@ class BinanceUSDSMFuturesClient(BinanceFuturesClient):
 
         return await self._create_get("topLongShortAccountRatio", headers = self._get_header(), params = params, api_variable_path = BinanceUSDSMFuturesClient.FUTURES_DATA)
 
-    async def get_top_long_short_position_ratio(self, pair: Pair, interval: enums.Interval,
+    async def get_top_long_short_position_ratio(self, symbol: PairSymbolType, interval: enums.Interval,
                                      limit: int = None, start_tmstmp_ms: int = None, end_tmstmp_ms: int = None) -> dict:
         params = CryptoXLibClient._clean_request_params({
-            "symbol": map_pair(pair),
+            "symbol": extract_symbol(symbol),
             "period": interval.value,
             "limit": limit,
             "startTime": start_tmstmp_ms,
@@ -521,10 +521,10 @@ class BinanceUSDSMFuturesClient(BinanceFuturesClient):
 
         return await self._create_get("topLongShortPositionRatio", headers = self._get_header(), params = params, api_variable_path = BinanceUSDSMFuturesClient.FUTURES_DATA)
 
-    async def get_global_long_short_account_ratio(self, pair: Pair, interval: enums.Interval,
+    async def get_global_long_short_account_ratio(self, symbol: PairSymbolType, interval: enums.Interval,
                                      limit: int = None, start_tmstmp_ms: int = None, end_tmstmp_ms: int = None) -> dict:
         params = CryptoXLibClient._clean_request_params({
-            "symbol": map_pair(pair),
+            "symbol": extract_symbol(symbol),
             "period": interval.value,
             "limit": limit,
             "startTime": start_tmstmp_ms,
@@ -533,10 +533,10 @@ class BinanceUSDSMFuturesClient(BinanceFuturesClient):
 
         return await self._create_get("globalLongShortAccountRatio", headers = self._get_header(), params = params, api_variable_path = BinanceUSDSMFuturesClient.FUTURES_DATA)
 
-    async def get_taker_long_short_ratio(self, pair: Pair, interval: enums.Interval,
+    async def get_taker_long_short_ratio(self, symbol: PairSymbolType, interval: enums.Interval,
                                      limit: int = None, start_tmstmp_ms: int = None, end_tmstmp_ms: int = None) -> dict:
         params = CryptoXLibClient._clean_request_params({
-            "symbol": map_pair(pair),
+            "symbol": extract_symbol(symbol),
             "period": interval.value,
             "limit": limit,
             "startTime": start_tmstmp_ms,
@@ -545,10 +545,10 @@ class BinanceUSDSMFuturesClient(BinanceFuturesClient):
 
         return await self._create_get("takerlongshortRatio", headers = self._get_header(), params = params, api_variable_path = BinanceUSDSMFuturesClient.FUTURES_DATA)
 
-    async def get_blvt_candlesticks(self, pair: Pair, interval: enums.Interval,
+    async def get_blvt_candlesticks(self, symbol: PairSymbolType, interval: enums.Interval,
                                      limit: int = None, start_tmstmp_ms: int = None, end_tmstmp_ms: int = None) -> dict:
         params = CryptoXLibClient._clean_request_params({
-            "symbol": map_pair(pair),
+            "symbol": extract_symbol(symbol),
             "interval": interval.value,
             "limit": limit,
             "startTime": start_tmstmp_ms,
@@ -557,17 +557,17 @@ class BinanceUSDSMFuturesClient(BinanceFuturesClient):
 
         return await self._create_get("lvtKlines", headers = self._get_header(), params = params, api_variable_path = BinanceUSDSMFuturesClient.FAPI_V1)
 
-    async def get_index_info(self, pair: Pair = None) -> dict:
+    async def get_index_info(self, symbol: PairSymbolType = None) -> dict:
         params = {}
-        if pair is not None:
-            params['symbol'] = map_pair(pair)
+        if symbol is not None:
+            params['symbol'] = extract_symbol(symbol)
 
         return await self._create_get("indexInfo", headers = self._get_header(), params = params, api_variable_path = BinanceUSDSMFuturesClient.FAPI_V1)
 
-    async def get_all_orders(self, pair: Pair, order_id: int = None, limit: int = None, start_tmstmp_ms: int = None,
+    async def get_all_orders(self, symbol: PairSymbolType, order_id: int = None, limit: int = None, start_tmstmp_ms: int = None,
                              end_tmstmp_ms: int = None, recv_window_ms: int = None) -> dict:
         params = CryptoXLibClient._clean_request_params({
-            "symbol": map_pair(pair),
+            "symbol": extract_symbol(symbol),
             "orderId": order_id,
             "startTime": start_tmstmp_ms,
             "endTime": end_tmstmp_ms,
@@ -578,14 +578,14 @@ class BinanceUSDSMFuturesClient(BinanceFuturesClient):
 
         return await self._create_get("allOrders", params = params, headers = self._get_header(), signed = True, api_variable_path = BinanceUSDSMFuturesClient.FAPI_V1)
 
-    async def get_all_open_orders(self, pair: Pair = None, recv_window_ms: int = None) -> dict:
+    async def get_all_open_orders(self, symbol: PairSymbolType, recv_window_ms: int = None) -> dict:
         params = CryptoXLibClient._clean_request_params({
             "recvWindow": recv_window_ms,
             "timestamp": self._get_current_timestamp_ms()
         })
 
-        if pair is not None:
-            params['symbol'] = map_pair(pair)
+        if symbol is not None:
+            params['symbol'] = extract_symbol(symbol)
         return await self._create_get("openOrders", params = params, headers = self._get_header(), signed = True, api_variable_path = BinanceUSDSMFuturesClient.FAPI_V1)
 
     async def get_balance(self, recv_window_ms: int = None) -> dict:
@@ -604,22 +604,22 @@ class BinanceUSDSMFuturesClient(BinanceFuturesClient):
 
         return await self._create_get("account", headers = self._get_header(), params = params, signed = True, api_variable_path = BinanceUSDSMFuturesClient.FAPI_V2)
 
-    async def get_position(self, pair: Pair = None, recv_window_ms: Optional[int] = None) -> dict:
+    async def get_position(self, symbol: PairSymbolType, recv_window_ms: Optional[int] = None) -> dict:
         params = CryptoXLibClient._clean_request_params({
             "recvWindow": recv_window_ms,
             "timestamp": self._get_current_timestamp_ms()
         })
 
-        if pair is not None:
-            params['symbol'] = map_pair(pair)
+        if symbol is not None:
+            params['symbol'] = extract_symbol(symbol)
 
         return await self._create_get("positionRisk", headers = self._get_header(), params = params, signed = True, api_variable_path = BinanceUSDSMFuturesClient.FAPI_V2)
 
-    async def get_account_trades(self, pair: Pair, limit: int = None, from_id: int = None,
+    async def get_account_trades(self, symbol: PairSymbolType, limit: int = None, from_id: int = None,
                                  start_tmstmp_ms: int = None, end_tmstmp_ms: int = None,
                                  recv_window_ms: Optional[int] = None) -> dict:
         params = CryptoXLibClient._clean_request_params({
-            "symbol": map_pair(pair),
+            "symbol": extract_symbol(symbol),
             "limit": limit,
             "fromId": from_id,
             "startTime": start_tmstmp_ms,
@@ -630,25 +630,25 @@ class BinanceUSDSMFuturesClient(BinanceFuturesClient):
 
         return await self._create_get("userTrades", params = params, headers = self._get_header(), signed = True, api_variable_path = BinanceUSDSMFuturesClient.FAPI_V1)
 
-    async def get_notional_and_leverage_brackets(self, pair: Pair = None, recv_window_ms: Optional[int] = None) -> dict:
+    async def get_notional_and_leverage_brackets(self, symbol: PairSymbolType, recv_window_ms: Optional[int] = None) -> dict:
         params = CryptoXLibClient._clean_request_params({
             "timestamp": self._get_current_timestamp_ms(),
             "recvWindow": recv_window_ms
         })
 
-        if pair is not None:
-            params['symbol'] = map_pair(pair)
+        if symbol is not None:
+            params['symbol'] = extract_symbol(symbol)
 
         return await self._create_get("leverageBracket", params = params, headers = self._get_header(), signed = True, api_variable_path = BinanceUSDSMFuturesClient.FAPI_V1)
 
-    async def get_api_trading_status(self, pair: Pair = None, recv_window_ms: Optional[int] = None) -> dict:
+    async def get_api_trading_status(self, symbol: PairSymbolType, recv_window_ms: Optional[int] = None) -> dict:
         params = CryptoXLibClient._clean_request_params({
             "timestamp": self._get_current_timestamp_ms(),
             "recvWindow": recv_window_ms
         })
 
-        if pair is not None:
-            params['symbol'] = map_pair(pair)
+        if symbol is not None:
+            params['symbol'] = extract_symbol(symbol)
 
         return await self._create_get("apiTradingStatus", params = params, headers = self._get_header(), signed = True, api_variable_path = BinanceUSDSMFuturesClient.FAPI_V1)
 
