@@ -9,7 +9,7 @@ requirements = [line.strip() for line in requirements]
 
 setuptools.setup(
     name="cryptoxlib-aio",
-    version="5.2.3",
+    version="5.3.0",
     author="nardew",
     author_email="cryptoxlib.aio@gmail.com",
     description="Cryptoexchange asynchronous python client",
@@ -26,6 +26,7 @@ setuptools.setup(
         "Programming Language :: Python :: 3.7",
         "Programming Language :: Python :: 3.8",
         "Programming Language :: Python :: 3.9",
+        "Programming Language :: Python :: 3.10",
         "License :: OSI Approved :: MIT License",
         "Operating System :: OS Independent",
         "Topic :: Software Development :: Libraries",
