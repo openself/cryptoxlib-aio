@@ -62,6 +62,7 @@ class DepthLimit(enum.Enum):
 
 
 class Interval(enum.Enum):
+    I_1S = '1s'
     I_1MIN = '1m'
     I_3MIN = '3m'
     I_5MIN = '5m'
